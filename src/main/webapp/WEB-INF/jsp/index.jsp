@@ -5,6 +5,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Welcome to Restro Application</title>
+
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>

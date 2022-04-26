@@ -22,13 +22,16 @@ public class Payment {
 	private Long id;
 	
 	@Column(name = "amount")
-	private float amount;
+	private String amount;
 	
 	@Column(name = "transaction_id")
-	private int transactionId;
+	private String transactionId;
 	
 	@Column(name = "tx_time")
 	private LocalDateTime txTime;
+	
+	@Column(name = "payment_status")
+	private String paymentStatus;
 	
 	@OneToOne
 	private Client client;

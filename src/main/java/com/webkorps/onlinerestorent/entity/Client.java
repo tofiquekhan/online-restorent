@@ -1,5 +1,6 @@
 package com.webkorps.onlinerestorent.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class Client {
 	@Column(name = "phone_number",length =10 )
 	private Long phoneNumber;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Membership membership;
 	
 	@OneToOne

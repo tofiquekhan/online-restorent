@@ -3,6 +3,7 @@ package com.webkorps.onlinerestorent.entity;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class Restro {
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Dish> menu;
 	
 	@Column(name = "created_date")

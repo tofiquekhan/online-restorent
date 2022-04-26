@@ -8,4 +8,5 @@ import com.webkorps.onlinerestorent.entity.Payment;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long>{
 
+	Payment findByTransactionId(String transactionId);
 }
