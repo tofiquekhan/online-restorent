@@ -1,16 +1,11 @@
 package com.webkorps.onlinerestorent.controller;
 
 
-import java.net.http.HttpResponse;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -23,7 +18,6 @@ import com.webkorps.onlinerestorent.entity.Client;
 import com.webkorps.onlinerestorent.entity.Dish;
 import com.webkorps.onlinerestorent.entity.Restro;
 import com.webkorps.onlinerestorent.service.DishService;
-import com.webkorps.onlinerestorent.service.RestroService;
 
 @Controller
 @RequestMapping("/client/restro/dish")
@@ -31,9 +25,6 @@ public class DishController {
 
 	@Autowired
 	private DishService dishService;
-	
-	@Autowired
-	private RestroService restroService;
 	
 	@GetMapping
 	public String addDishPage(HttpSession session,ModelMap model) {
@@ -60,8 +51,12 @@ public class DishController {
 		dish.setName(dishName);
 		dish.setPrice(Integer.parseInt(dishPrice));
 		dish.setRestro(restro);
-		dishService.addDish(dish);
-		
+		Dish savedDish = dishService.addDish(dish);
+		String msg = "fail";
+		if(savedDish.getId()>0) {
+			msg = "success";
+		}
+		model.addAttribute("msg", msg);
 		return "addDish";
 	}
 }

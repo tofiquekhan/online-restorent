@@ -33,6 +33,7 @@ public class RestroSecurityConfig extends WebSecurityConfigurerAdapter{
 	.antMatchers("/img/**").permitAll()
 	.antMatchers("/user/**").hasRole("USER")
 	.antMatchers("/client/**").hasRole("CLIENT")
+	.antMatchers("/admin/**").hasRole("ADMIN")
 	.anyRequest()
 	.authenticated()
 	.and()

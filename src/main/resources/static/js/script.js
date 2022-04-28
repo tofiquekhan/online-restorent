@@ -72,10 +72,11 @@ function updatePaymentOnServer(payment_id,order_id,ostatus){
             success : function(response){
                 
                 console.log('Payment Successfull');
-                $('#paymentMsg').html("Success");
-            	$('#paymentId').val(order_id);
+                
+            	$('#orderId').val(order_id);
             },
             error : function(error){
+                $('#paymentMsg').html("Payment Failure Or Not Updated in Our Database");
                 console.log('Payment succesfull,db not updated'); 
             }
         })

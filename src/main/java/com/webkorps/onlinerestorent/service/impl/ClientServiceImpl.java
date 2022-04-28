@@ -1,5 +1,7 @@
 package com.webkorps.onlinerestorent.service.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,11 @@ public class ClientServiceImpl implements ClientService {
 	public Client getClientByUser(User user) {
 		Client client = clientRepository.findByUser(user);
 		return client;
+	}
+	
+	@Override
+	public List<Client> getAllClients(){
+		return clientRepository.findAll();
 	}
 
 }

@@ -17,17 +17,18 @@
 		<div class="row">
 			<div class="card p-3 m-3">
 				<div class="card-body">
-				<%if(request.getAttribute("msg")!=null){ %>
-				<%if(request.getAttribute("msg").toString().equalsIgnoreCase("success")){ %>
+				
+				<c:if test = "${msg == 'success'}">
 				<div class="alert alert-success" role="alert">
+				
   Dish Added Successfully
 </div>
-<%}else{ %>
+  </c:if>
+				<c:if test = "${msg == 'fail'}">
 <div class="alert alert-danger" role="alert">
   Dish did not added Successfully
 </div>
-		<%} }%>		
-				
+				</c:if>
 				
 				
 				

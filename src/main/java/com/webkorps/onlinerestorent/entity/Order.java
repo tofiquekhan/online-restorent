@@ -1,5 +1,6 @@
 package com.webkorps.onlinerestorent.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -34,7 +35,7 @@ public class Order {
 	private User user;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Dish> dishes;
+	private List<Dish> dishes;
 	
 	@OneToOne
 	private Payment payment;

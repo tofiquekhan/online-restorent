@@ -23,11 +23,13 @@ import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import com.webkorps.onlinerestorent.entity.Client;
+import com.webkorps.onlinerestorent.entity.Membership;
 import com.webkorps.onlinerestorent.entity.Payment;
 import com.webkorps.onlinerestorent.entity.RestroUserDetail;
 import com.webkorps.onlinerestorent.entity.User;
 import com.webkorps.onlinerestorent.repository.PaymentRepository;
 import com.webkorps.onlinerestorent.service.ClientService;
+import com.webkorps.onlinerestorent.service.PaymentService;
 import com.webkorps.onlinerestorent.service.UserService;
 
 //@Controller
@@ -51,6 +53,9 @@ public class UserController {
 	
 	@Autowired
 	private ClientService clientService;
+	
+	@Autowired
+	private PaymentService paymentService;
 	
 	final static int plan1 = 150;
 	final static int plan2 = 290;
@@ -93,7 +98,7 @@ public class UserController {
 		session.setAttribute("client", client);
 		return new ModelAndView("addRestro");
 		}else if(user.getRole().equalsIgnoreCase("ROLE_ADMIN")) {
-			 return new ModelAndView("adminSignUp");
+			 return new ModelAndView("allClients");
 		}else {
 			session.setAttribute("user", user);
 			return new ModelAndView("userHome");
@@ -157,7 +162,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/client/signup")
-	public ModelAndView clientSignUp(@RequestParam(name = "name")String name,@RequestParam(name = "email")String email,@RequestParam(name = "password")String password,@RequestParam(name = "phoneNumber")String phoneNumber) {
+	public ModelAndView clientSignUp(@RequestParam(name = "name")String name,@RequestParam(name = "email")String email,@RequestParam(name = "password")String password,@RequestParam(name = "phoneNumber")String phoneNumber,@RequestParam(name = "orderId")String orderId) {
 		User user = new User();
 		user.setName(name);
 		user.setEmail(email);
@@ -165,9 +170,15 @@ public class UserController {
 		user.setPhoneNumber(Long.parseLong(phoneNumber));
 		user.setRole("ROLE_CLIENT");
 		
+		Payment payment = paymentService.getPaymentByTransactionId(orderId);
+		Membership membership = new Membership();
+		membership.setPayment(payment);
+		membership.setPurchaseDate(payment.getTxTime().toLocalDate());
+		membership.setPrice(Integer.parseInt(payment.getAmount())/100);
+		membership.setExpireDate(payment.getTxTime().toLocalDate().plusMonths(1));
 		Client client = new Client();
 		client.setUser(user);
-		
+		client.setMembership(membership);
 		Client savedClientDto = clientService.addClient(client);
 		
 		return new ModelAndView("clientSignIn")  ;

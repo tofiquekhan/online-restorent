@@ -17,6 +17,12 @@ import lombok.Data;
 @Data
 public class Membership {
 	
+	int plan1 = 30;
+	int plan2 = 60;
+	int plan3 = 90;
+	
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id",length = 10)

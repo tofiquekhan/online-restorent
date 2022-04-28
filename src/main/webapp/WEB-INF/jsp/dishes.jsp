@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Add Dish - Online Restro</title>
+<title>Dishes - Online Restro</title>
 </head>
 <body>
 	<jsp:include page="dashboard.jsp"></jsp:include>

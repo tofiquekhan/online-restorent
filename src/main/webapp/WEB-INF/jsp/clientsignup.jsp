@@ -66,8 +66,9 @@
       <button onclick="paymentStart()" type="button" class="btn btn-primary">Payment</button>
     </div>
   </div>
+  <input id="orderId" type="hidden" name="orderId" value="">
   <div id='paymentMsg' class="alert alert-success" role="alert" >
-<h6></h6><%=request.getParameter("status") %>
+<h6></h6>
 </div>
  <!-- <div class="form-group row">
     
