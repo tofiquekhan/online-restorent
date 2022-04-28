@@ -2,14 +2,17 @@ package com.webkorps.onlinerestorent.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/client/restro/notification")
 public class NotificationController {
 
-	@GetMapping
+	@GetMapping("/client/restro/notification")
 	public String viewOrderPage() {
 		return "notification";
+	}
+	
+	@GetMapping("/user/notification")
+	public String myOrderPage() {
+		return "userNotification";
 	}
 }

@@ -1,5 +1,10 @@
+<%@page import="org.springframework.ui.ModelMap"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="com.webkorps.onlinerestorent.entity.Dish"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,6 +59,37 @@
 
 				</div>
 			</div>
+<div class="card p-3 m-3">
+				<div class="card-body">
+<table class="table">
+<h5 class="card-title">Dish List</h5>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Dish Name</th>
+      <th scope="col">Dish Price</th>
+      <th scope="col">Image</th>
+    </tr>
+  </thead>
+  <tbody>
+  <!-- 
+  <%/*
+  List<Dish> list = null;
+  Iterator it = list.iterator();
+    		  while(it.hasNext()){
+    			  Dish dish = (Dish)it.next();
+    		  
+  
+  %>
+    <tr>
+      <td><%=dish.getName() %></td>
+      <td><%=dish.getPrice() %></td>
+      <td></td>
+    </tr>
+   <%}*/ %> -->
+  </tbody>
+</table>
+</div>
+</div>
 
 		</div>
 

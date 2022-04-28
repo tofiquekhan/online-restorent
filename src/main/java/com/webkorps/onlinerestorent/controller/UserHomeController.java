@@ -2,18 +2,14 @@ package com.webkorps.onlinerestorent.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class OrderController {
+@RequestMapping("/user")
+public class UserHomeController {
 
-	@GetMapping("/client/restro/order")
+	@GetMapping
 	public String viewOrderPage() {
-		return "viewOrders";
+		return "userHome";
 	}
-	
-	@GetMapping("/user/myorder")
-	public String userMyOrderPage() {
-		return "userMyOrder";
-	}
-	
 }

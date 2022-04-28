@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.webkorps.onlinerestorent.service.impl.RestroUserDetailService;
 
@@ -19,20 +18,28 @@ public class RestroSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private RestroUserDetailService restroUserDetailService;
 
+	
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
+		
+		
 	http
 	.csrf().disable()
 	.authorizeRequests()
-	.antMatchers("/user/**").permitAll()
+	.antMatchers("/public/**").permitAll()
+	.antMatchers("/js/**").permitAll()
+	.antMatchers("/img/**").permitAll()
+	.antMatchers("/user/**").hasRole("USER")
+	.antMatchers("/client/**").hasRole("CLIENT")
 	.anyRequest()
 	.authenticated()
 	.and()
 	.formLogin()
-	.loginPage("/user/signin")
+	.loginPage("/public/signin")
 	.loginProcessingUrl("/doLogin")
-	.defaultSuccessUrl("/client/restro/")
+	.defaultSuccessUrl("/public/forward")
 	;
 	
 	

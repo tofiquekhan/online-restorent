@@ -4,12 +4,13 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,16 +22,18 @@ import org.springframework.web.servlet.ModelAndView;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
-import com.webkorps.onlinerestorent.dto.UserDto;
+import com.webkorps.onlinerestorent.entity.Client;
 import com.webkorps.onlinerestorent.entity.Payment;
+import com.webkorps.onlinerestorent.entity.RestroUserDetail;
 import com.webkorps.onlinerestorent.entity.User;
 import com.webkorps.onlinerestorent.repository.PaymentRepository;
+import com.webkorps.onlinerestorent.service.ClientService;
 import com.webkorps.onlinerestorent.service.UserService;
 
 //@Controller
 @RestController
-@RequestMapping("/user")
-public class ClientController {
+@RequestMapping("/public")
+public class UserController {
 
 //	@GetMapping
 //	public String view() {
@@ -46,21 +49,56 @@ public class ClientController {
 	@Autowired 
 	private UserService userService;
 	
+	@Autowired
+	private ClientService clientService;
+	
 	final static int plan1 = 150;
 	final static int plan2 = 290;
 	final static int plan3 = 400;
 	
-	@GetMapping
+	@GetMapping("/client/signup")
 	public ModelAndView clientSignUpPage() {
 		return new ModelAndView("clientSignUp");
 	}
 
 	@GetMapping("/signin")
-	public ModelAndView clientSignInPage() {
+	public ModelAndView signInPage() {
 		return new ModelAndView("clientSignIn");
 	}
 	
+	@GetMapping("/user/signup")
+	public ModelAndView userSignInPage() {
+		return new ModelAndView("userSignUp");
+	}
 	
+	@GetMapping("/admin/signup")
+	public ModelAndView adminSignInPage() {
+		return new ModelAndView("adminSignUp");
+	}
+	
+	@GetMapping("/forward")
+	public ModelAndView forward(HttpSession session) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String email = null;
+		if (principal instanceof RestroUserDetail) {
+		  email = ((RestroUserDetail)principal).getUsername();
+		  System.out.println(email);
+		} else {
+		  email= principal.toString();
+		  System.out.println("username : "+email);
+		}
+		User user = userService.getUserByEmail(email);
+		if(user.getRole().equalsIgnoreCase("ROLE_CLIENT")) {
+		Client client = clientService.getClientByUser(user);
+		session.setAttribute("client", client);
+		return new ModelAndView("addRestro");
+		}else if(user.getRole().equalsIgnoreCase("ROLE_ADMIN")) {
+			 return new ModelAndView("adminSignUp");
+		}else {
+			session.setAttribute("user", user);
+			return new ModelAndView("userHome");
+		}
+	}
 	
 	@PostMapping("/membership")
 	public String createOrder(@RequestBody Map<String, Object> data) {
@@ -112,22 +150,38 @@ public class ClientController {
 		Payment myPayment =  paymentRepository.findByTransactionId(data.get("order_id").toString());
 		myPayment.setPaymentStatus(data.get("ostatus").toString());
 		paymentRepository.save(myPayment);
-	
-		return ResponseEntity.ok(Map.of("status","success"));
+		Map map = new HashMap<String, String>();
+		map.put("paymentId", myPayment.getId());
+		map.put("status","success");
+		return ResponseEntity.ok(map);
 	}
 	
-	@PostMapping("/signup")
-	public ModelAndView signUp(@RequestParam(name = "name")String name,@RequestParam(name = "email")String email,@RequestParam(name = "password")String password,@RequestParam(name = "phoneNumber")String phoneNumber) {
-		System.out.println(email);
-//		,@RequestParam(name = "role")String role
-		UserDto userDto = new UserDto();
-		userDto.setName(name);
-		userDto.setEmail(email);
-		userDto.setPassword(bCryptPasswordEncoder.encode(password));
-		userDto.setPhoneNumber(Long.parseLong(phoneNumber));
-		userDto.setRole("ROLE_CLIENT");
-		UserDto savedUserDto = userService.addUser(userDto);
-		return new ModelAndView("/addRestro");
+	@PostMapping("/client/signup")
+	public ModelAndView clientSignUp(@RequestParam(name = "name")String name,@RequestParam(name = "email")String email,@RequestParam(name = "password")String password,@RequestParam(name = "phoneNumber")String phoneNumber) {
+		User user = new User();
+		user.setName(name);
+		user.setEmail(email);
+		user.setPassword(bCryptPasswordEncoder.encode(password));
+		user.setPhoneNumber(Long.parseLong(phoneNumber));
+		user.setRole("ROLE_CLIENT");
+		
+		Client client = new Client();
+		client.setUser(user);
+		
+		Client savedClientDto = clientService.addClient(client);
+		
+		return new ModelAndView("clientSignIn")  ;
+	}
+
+	@PostMapping("/user/signup")
+	public ModelAndView userSignUp(@RequestParam(name = "name")String name,@RequestParam(name = "email")String email,@RequestParam(name = "password")String password) {
+		User user = new User();
+		user.setName(name);
+		user.setEmail(email);
+		user.setPassword(bCryptPasswordEncoder.encode(password));
+		user.setRole("ROLE_USER");
+		userService.addUser(user);
+		return new ModelAndView("clientSignIn")  ;
 	}
 
 

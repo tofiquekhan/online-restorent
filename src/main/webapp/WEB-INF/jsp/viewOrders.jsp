@@ -13,6 +13,28 @@
 <div class="card p-3 m-3">
 				<div class="card-body">
 <h5 class="card-title">Orders</h5>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">User</th>
+      <th scope="col">Dishes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mark</td>
+      <td>Otto</td>
+    </tr>
+    <tr>
+      <td>Jacob</td>
+      <td>Thornton</td>
+    </tr>
+    <tr>
+      <td>Larry</td>
+      <td>the Bird</td>
+    </tr>
+  </tbody>
+</table>
 
 
 </div>

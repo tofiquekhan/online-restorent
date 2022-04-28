@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -20,18 +22,23 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/public/user/signup">User Sign Up</a>
+          <a class="nav-link active" aria-current="page" href="/user">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/public/client/signup">Client Sign Up</a>
+          <a class="nav-link active" aria-current="page" href="/user/cart">Cart</a>
         </li>
          <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/public/admin/signup">Admin Sign Up</a>
+          <a class="nav-link active" aria-current="page" href="/user/myorder">My Order</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/public/signin">Sign In</a>
+          <a class="nav-link active" aria-current="page" href="/user/notification">Notification</a>
         </li>
-        
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/user/myaccount">My Account</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/logout">Logout</a>
+        </li>
       </ul>
     
     </div>

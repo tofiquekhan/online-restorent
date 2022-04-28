@@ -1,6 +1,7 @@
 package com.webkorps.onlinerestorent.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -28,7 +29,7 @@ public class Restro {
 	private String name;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Dish> menu;
+	private List<Dish> menu;
 	
 	@Column(name = "created_date")
 	private LocalDate createdDate;
@@ -38,4 +39,5 @@ public class Restro {
 	
 	@Column(name = "modified_date")
 	private LocalDate modifiedDate;
+	
 }

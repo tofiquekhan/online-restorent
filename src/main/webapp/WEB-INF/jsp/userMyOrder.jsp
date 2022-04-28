@@ -7,26 +7,20 @@
 <title>Notification - Online Restro</title>
 </head>
 <body>
-<jsp:include page="dashboard.jsp"></jsp:include>
+<jsp:include page="userHeader.jsp"></jsp:include>
 <div class="container">
 <div class="row">
 <div class="card p-3 m-3">
-<h5 class="card-title">Notification</h5>
+<h5 class="card-title">My Order</h5>
 				<div class="card-body">
-				<div class="card p-3 m-3">
-<h5 class="card-title">Membership</h5>
-				<div class="card-body">
-<h6>Expire Plan Date : </h6>
-</div>
-</div>
+				
 
 
 
 <div class="card p-3 m-3">
-<h5 class="card-title">Order Cancel</h5>
+<h5 class="card-title">Order</h5>
 				<div class="card-body">
 <h6>Order Id : </h6>
-<h6>User Name : </h6>
 </div>
 </div>
 

@@ -21,22 +21,13 @@ public class Client {
 	@Column(name = "id",length = 10)
 	private Long id;
 	
-	@Column(name = "name",length = 50)
-	private String name;
-	
-	@Column(name = "email")
-	private String email;
-	
-	@Column(name = "password",length = 16)
-	private String password;
-	
-	@Column(name = "phone_number",length =10 )
-	private Long phoneNumber;
+	@OneToOne(cascade = CascadeType.ALL)
+	private User user;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Membership membership;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Restro restro;
 	
 }

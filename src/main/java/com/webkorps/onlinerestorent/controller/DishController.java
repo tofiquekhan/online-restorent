@@ -1,19 +1,29 @@
 package com.webkorps.onlinerestorent.controller;
 
-import javax.websocket.server.PathParam;
 
-import org.modelmapper.ModelMapper;
+import java.net.http.HttpResponse;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.webkorps.onlinerestorent.dto.DishDto;
+import com.webkorps.onlinerestorent.entity.Client;
+import com.webkorps.onlinerestorent.entity.Dish;
+import com.webkorps.onlinerestorent.entity.Restro;
 import com.webkorps.onlinerestorent.service.DishService;
+import com.webkorps.onlinerestorent.service.RestroService;
 
 @Controller
 @RequestMapping("/client/restro/dish")
@@ -22,22 +32,29 @@ public class DishController {
 	@Autowired
 	private DishService dishService;
 	
+	@Autowired
+	private RestroService restroService;
+	
 	@GetMapping
-	public String addDishPage() {
+	public String addDishPage(HttpSession session,ModelMap model) {
+		Client client = (Client) session.getAttribute("client");
+		Restro restro = client.getRestro();
+		List<Dish> dishes = dishService.getAllDishesByRestro(restro);
+		model.addAttribute("restro", dishes);
 		return "addDish";
 	}
 	
 	@PostMapping
-	public String addDish(Model model,@RequestParam(name = "dishName") String dishName,@RequestParam(name = "dishPrice") String dishPrice) {
-		DishDto dishDto = new DishDto();
-		dishDto.setName(dishName);
-		dishDto.setPrice(Integer.parseInt(dishPrice));
-		DishDto savedDishDto =  dishService.addDish(dishDto);
-		if(savedDishDto.getId()>0) {
-			model.addAttribute("msg", "Success");
-		}else {
-			model.addAttribute("msg", "Failure");
-		}
+	public String addDish(HttpSession session, Model model,@RequestParam(name = "dishName") String dishName,@RequestParam(name = "dishPrice") String dishPrice) {
+		Client client= (Client) session.getAttribute("client");
+		Restro restro = client.getRestro();
+		
+		Dish dish = new Dish();
+		dish.setName(dishName);
+		dish.setPrice(Integer.parseInt(dishPrice));
+		dish.setRestro(restro);
+		dishService.addDish(dish);
+		
 		return "addDish";
 	}
 }

@@ -1,5 +1,6 @@
 package com.webkorps.onlinerestorent.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,9 @@ public class Dish {
 	
 	@Column(name = "price")
 	private float price;
+	
+	@ManyToOne()
+	private Restro restro;
 	
 	@Column(name = "image")
 	private String image;

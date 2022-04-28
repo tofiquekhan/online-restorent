@@ -1,8 +1,12 @@
 package com.webkorps.onlinerestorent.service;
 
-import com.webkorps.onlinerestorent.dto.UserDto;
+import com.webkorps.onlinerestorent.entity.User;
 
 public interface UserService {
 
-	UserDto addUser(UserDto userDto);
+	User addUser(User user);
+	
+	User getUserByEmail(String email);
+	
+	void deleteUser(Long id);
 }

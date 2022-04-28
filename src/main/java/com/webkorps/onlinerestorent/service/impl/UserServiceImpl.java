@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.webkorps.onlinerestorent.dto.UserDto;
 import com.webkorps.onlinerestorent.entity.User;
 import com.webkorps.onlinerestorent.repository.UserRepository;
 import com.webkorps.onlinerestorent.service.UserService;
@@ -15,19 +14,23 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private ModelMapper modelMapper;
 
 	@Override
-	public UserDto addUser(UserDto userDto) {
-		User user = modelMapper.map(userDto, User.class);
+	public User addUser(User user) {
+		
 		User savedUser = userRepository.save(user);
-		UserDto savedUserDto = modelMapper.map(savedUser, UserDto.class);
-		return savedUserDto;
-	
-	
-	
+		return savedUser;
 	}
 
+	@Override
+	public User getUserByEmail(String email) {
+		User user = userRepository.findByEmail(email);
+		return user;
+	}
+
+	@Override
+	public void deleteUser(Long id) {
+		userRepository.deleteById(id);
+	}
 	
 }

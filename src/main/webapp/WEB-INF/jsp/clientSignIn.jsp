@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Client Sign In</title>
+<title>Sign In</title>
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
@@ -16,7 +16,7 @@
 <div class="col-6">
 <div class="card p-3 m-3" >
   <div class="card-body">
-    <h5 class="card-title" >Client Sign In</h5>
+    <h5 class="card-title" >Sign In</h5>
 <form action="/doLogin" method="post">
   <div class="form-group m-1">
     <label for="email">Email address</label>

@@ -12,7 +12,7 @@ const paymentStart=()=>{
     //ajax
     $.ajax(
         {
-            url : '/client/membership',
+            url : '/public/membership',
             data : JSON.stringify({plan : plan}),
             contentType: 'application/json',
             type : 'POST',
@@ -64,7 +64,7 @@ const paymentStart=()=>{
 function updatePaymentOnServer(payment_id,order_id,ostatus){
     $.ajax(
         {
-            url : '/client/updatePayment',
+            url : '/public/updatePayment',
             data : JSON.stringify({payment_id  : payment_id, order_id: order_id,ostatus : ostatus}),
             contentType: 'application/json',
             type : 'POST',
@@ -73,6 +73,7 @@ function updatePaymentOnServer(payment_id,order_id,ostatus){
                 
                 console.log('Payment Successfull');
                 $('#paymentMsg').html("Success");
+            	$('#paymentId').val(order_id);
             },
             error : function(error){
                 console.log('Payment succesfull,db not updated'); 

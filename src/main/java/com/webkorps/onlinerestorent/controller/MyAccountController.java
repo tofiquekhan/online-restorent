@@ -5,11 +5,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/client/myaccount")
 public class MyAccountController {
 
-	@GetMapping
-	public String viewOrderPage() {
+	@GetMapping("/client/myaccount")
+	public String clientMyAccountPage() {
 		return "myAccount";
+	}
+	
+	@GetMapping("/user/myaccount")
+	public String userMyAccountPage() {
+		return "userMyAccount";
 	}
 }

@@ -5,7 +5,9 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Client Sign Up</title>
-
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script type="text/javascript" src="/js/script.js"></script>
+<script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
@@ -23,7 +25,7 @@
 
 
 
-<form method="post" action="/user/signup" >
+<form method="post" action="/public/client/signup" >
   <div class="form-group row">
     <label for="name" class="col-sm-12 col-form-label">Name</label>
     <div class="col">
@@ -77,7 +79,7 @@
   
   <div class="form-group row">
     <div class="col">
-      <button type="submit" class="btn btn-primary">Sign Up</button>
+      <input type="submit" class="btn btn-primary" value="Sign Up">
     </div>
   </div>
 </form>

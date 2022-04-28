@@ -1,8 +1,11 @@
 package com.webkorps.onlinerestorent.service;
 
-import com.webkorps.onlinerestorent.dto.RestroDto;
+import com.webkorps.onlinerestorent.entity.Client;
+import com.webkorps.onlinerestorent.entity.Restro;
 
 public interface RestroService {
 
-	RestroDto addRestro(RestroDto restroDto);
+	Restro addRestro(Restro restro);
+	
+	Restro getRestroByClient(Client client);
 }
