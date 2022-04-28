@@ -22,7 +22,7 @@
 
 
 
-<form method="post" action="/user/signup" >
+<form method="post" action="/public/admin/signup" >
   <div class="form-group row">
     <label for="name" class="col-sm-12 col-form-label">Name</label>
     <div class="col">
@@ -50,7 +50,7 @@
   
 
   
-  <div class="form-group row">
+  <div class="form-group row pt-3">
     <div class="col">
       <input type="submit" class="btn btn-primary" value="Sign Up">
     </div>

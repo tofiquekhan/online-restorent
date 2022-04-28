@@ -29,6 +29,9 @@
           <a class="nav-link" href="/client/restro/dish">Add Dish</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="/client/restro/dish/dishes">Dishes</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/client/restro/order">View Order</a>
         </li>
         <li class="nav-item">

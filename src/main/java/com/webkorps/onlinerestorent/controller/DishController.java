@@ -37,12 +37,19 @@ public class DishController {
 	
 	@GetMapping
 	public String addDishPage(HttpSession session,ModelMap model) {
+		return "addDish";
+	}
+	
+	
+	@GetMapping("/dishes")
+	public String dishesPage(HttpSession session,ModelMap model) {
 		Client client = (Client) session.getAttribute("client");
 		Restro restro = client.getRestro();
 		List<Dish> dishes = dishService.getAllDishesByRestro(restro);
 		model.addAttribute("restro", dishes);
-		return "addDish";
+		return "dishes";
 	}
+	
 	
 	@PostMapping
 	public String addDish(HttpSession session, Model model,@RequestParam(name = "dishName") String dishName,@RequestParam(name = "dishPrice") String dishPrice) {

@@ -67,12 +67,12 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/signup")
-	public ModelAndView userSignInPage() {
+	public ModelAndView userSignUpPage() {
 		return new ModelAndView("userSignUp");
 	}
 	
 	@GetMapping("/admin/signup")
-	public ModelAndView adminSignInPage() {
+	public ModelAndView adminSignUpPage() {
 		return new ModelAndView("adminSignUp");
 	}
 	
@@ -186,6 +186,17 @@ public class UserController {
 
 
 	
+	@PostMapping("/admin/signup")
+	public ModelAndView adminSignUp(@RequestParam(name = "name")String name,@RequestParam(name = "email")String email,@RequestParam(name = "password")String password,@RequestParam(name = "phoneNumber") String phoneNumber) {
+		User user = new User();
+		user.setName(name);
+		user.setEmail(email);
+		user.setPassword(bCryptPasswordEncoder.encode(password));
+		user.setPhoneNumber(Long.parseLong(phoneNumber));
+		user.setRole("ROLE_ADMIN");
+		userService.addUser(user);
+		return new ModelAndView("clientSignIn")  ;
+	}
 
 
 
