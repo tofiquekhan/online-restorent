@@ -10,4 +10,6 @@ public interface DishService {
 	Dish addDish(Dish dish);
 	
 	List<Dish> getAllDishesByRestro(Restro restro);
+	
+	Dish getDishById(Long id);
 }

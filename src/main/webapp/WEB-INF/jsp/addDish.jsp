@@ -17,23 +17,29 @@
 		<div class="row">
 			<div class="card p-3 m-3">
 				<div class="card-body">
-				
-				<c:if test = "${msg == 'success'}">
+				<c:choose>
+				<c:when test = "${msg == 'success'}">
+<div class="alert alert-danger" role="alert">
+  First Create Restro
+</div>
+</c:when>
+				<c:when test = "${msg == 'success'}">
 				<div class="alert alert-success" role="alert">
 				
   Dish Added Successfully
 </div>
-  </c:if>
-				<c:if test = "${msg == 'fail'}">
+</c:when>
+				<c:when test = "${msg == 'fail'} ">
 <div class="alert alert-danger" role="alert">
   Dish did not added Successfully
 </div>
-				</c:if>
+				</c:when>
 				
+				</c:choose>
 				
 				
 					<h5 class="card-title">Add Dish</h5>
-					<form method="post" action="/client/restro/dish">
+					<form method="post" action="/client/restro/dish" enctype="multipart/form-data">
 						<!-- Dish Menu Start -->
  <div class="form-group mt-1 row">
     <div class="col-md-6 mb-3">

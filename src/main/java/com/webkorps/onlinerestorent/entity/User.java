@@ -6,7 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -19,9 +21,13 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id",length = 10)
 	private Long id;
+	
 	@Column(name = "name",length = 35)
+	@NotBlank(message = "You can not Sign Up without Full Name") @NotNull
 	private String name;
+	
 	@Column(name = "email")
+	@Email() @NotNull
 	private String email;
 	@Column(name = "password")
 	private String password;

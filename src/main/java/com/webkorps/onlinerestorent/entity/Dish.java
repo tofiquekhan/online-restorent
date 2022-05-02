@@ -27,7 +27,7 @@ public class Dish {
 	@Column(name = "price")
 	private float price;
 	
-	@ManyToOne()
+	@ManyToOne
 	private Restro restro;
 	
 	@Column(name = "image")

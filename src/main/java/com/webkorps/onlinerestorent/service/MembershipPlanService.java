@@ -8,4 +8,5 @@ public interface MembershipPlanService {
 	
 	List<MembershipPlan> getMembershipPlans();
 	MembershipPlan addMembershipPlan(MembershipPlan membershipPlan);
+	MembershipPlan getMembershipPlanById(Long id);
 }

@@ -24,4 +24,9 @@ public class MembershipPlanServiceImpl implements MembershipPlanService{
 	public MembershipPlan addMembershipPlan(MembershipPlan membershipPlan) {
 		return membershipPlanRepository.save(membershipPlan);
 	}
+	
+	@Override
+	public MembershipPlan getMembershipPlanById(Long id) {
+		return membershipPlanRepository.getById(id);
+	}
 }

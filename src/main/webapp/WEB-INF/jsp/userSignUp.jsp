@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,24 +22,25 @@
 
 
 
-
-<form method="post" action="/public/user/signup" >
+<form:form action="/public/user/signup" modelAttribute="user" method="post">  
   <div class="form-group row">
     <label for="name" class="col-sm-12 col-form-label">Name</label>
     <div class="col">
-      <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+    <form:input  class="form-control" path="name" placeholder="Name" /> 
+    <form:errors path="name" cssClass="error" />
     </div>
   </div>
    <div class="form-group row">
     <label for="email" class="col-sm-12 col-form-label">Email</label>
     <div class="col">
-      <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+    <form:input type='email' path="email" class="form-control" placeholder="Email" /> 
+    <form:errors path="email" cssClass="error" /> 
     </div>
   </div>
   <div class="form-group row">
     <label for="password" class="col-sm-12 col-form-label">Password</label>
     <div class="col">
-      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+    <form:password path="password" class="form-control" placeholder="Password"/>  
     </div>
   </div>
   
@@ -46,13 +48,16 @@
   
   <div class="form-group row">
     <div class="col">
-      <input type="submit" class="btn btn-primary" value="Sign Up">
+     <input type="submit"  class="btn btn-primary" value="Sign Up"/> 
     </div>
   </div>
-</form>
+</form:form>  
   </div>
 </div>
 </div>
+ 
+</div>
+
 
 </div>
 
@@ -61,10 +66,6 @@
 
 
 
-
-
-
-</div>
 
 
 <jsp:include page="footer.jsp"></jsp:include>

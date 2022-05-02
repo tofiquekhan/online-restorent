@@ -1,5 +1,7 @@
 package com.webkorps.onlinerestorent.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,4 +29,16 @@ public class RestroServiceImpl implements RestroService{
 		return restro;
 	}
 
+	@Override
+	public List<Restro> getRestrosByName(String restroName){
+		return restroRepository.findByNameContains(restroName);
+	}
+	
+	@Override
+	public Restro getRestroById(Long id) {
+		
+		
+		return restroRepository.findById(id).get();
+	}
+	
 }

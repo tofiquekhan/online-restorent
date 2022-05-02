@@ -2,16 +2,22 @@
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +30,13 @@ import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import com.webkorps.onlinerestorent.entity.Client;
 import com.webkorps.onlinerestorent.entity.Membership;
+import com.webkorps.onlinerestorent.entity.MembershipPlan;
 import com.webkorps.onlinerestorent.entity.Payment;
 import com.webkorps.onlinerestorent.entity.RestroUserDetail;
 import com.webkorps.onlinerestorent.entity.User;
 import com.webkorps.onlinerestorent.repository.PaymentRepository;
 import com.webkorps.onlinerestorent.service.ClientService;
+import com.webkorps.onlinerestorent.service.MembershipPlanService;
 import com.webkorps.onlinerestorent.service.PaymentService;
 import com.webkorps.onlinerestorent.service.UserService;
 
@@ -57,12 +65,13 @@ public class UserController {
 	@Autowired
 	private PaymentService paymentService;
 	
-	final static int plan1 = 150;
-	final static int plan2 = 290;
-	final static int plan3 = 400;
-	
+	@Autowired
+	private MembershipPlanService membershipPlanService;
+		
 	@GetMapping("/client/signup")
-	public ModelAndView clientSignUpPage() {
+	public ModelAndView clientSignUpPage(ModelMap model) {
+		List<MembershipPlan> membershipPlans = membershipPlanService.getMembershipPlans();
+		model.addAttribute("membershipPlans", membershipPlans);
 		return new ModelAndView("clientSignUp");
 	}
 
@@ -72,8 +81,10 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/signup")
-	public ModelAndView userSignUpPage() {
-		return new ModelAndView("userSignUp");
+	public ModelAndView userSignUpPage(Model model) {
+//		User user = new User();
+//		model.addAttribute("user", user);
+		return new ModelAndView("userSignUp","user",new User());
 	}
 	
 	@GetMapping("/admin/signup")
@@ -107,19 +118,10 @@ public class UserController {
 	
 	@PostMapping("/membership")
 	public String createOrder(@RequestBody Map<String, Object> data) {
-//		System.out.println("Hey order fucntion");
 		System.out.println(data);
-		 String plan = data.get("plan").toString();
-		 int amount = 0;
-		 if(plan.equalsIgnoreCase("plan1")) {
-			 amount = plan1;
-		 }
-		 else if(plan.equalsIgnoreCase("plan2")) {
-			 amount = plan2;
-		 }
-		 else if(plan.equalsIgnoreCase("plan3")) {
-			 amount = plan3;
-		 }
+		 Long plan =Long.parseLong(data.get("plan").toString());
+		 int amount = membershipPlanService.getMembershipPlanById(plan).getPrice();
+		 
 		 Order order = null;
 		 try {
 			RazorpayClient client =  new RazorpayClient("rzp_test_UhnY60lqwEEiCk", "VhSDCvot430e68jSjbr6pa0L");
@@ -148,34 +150,25 @@ public class UserController {
 		return order.toString();
 	}
 	
-	@PostMapping("/updatePayment")
-	public ResponseEntity<?> updatePayment(@RequestBody Map<String, Object> data){
-		System.out.println("============Update Payment================");
-		System.out.println(data);
-		Payment myPayment =  paymentRepository.findByTransactionId(data.get("order_id").toString());
-		myPayment.setPaymentStatus(data.get("ostatus").toString());
-		paymentRepository.save(myPayment);
-		Map map = new HashMap<String, String>();
-		map.put("paymentId", myPayment.getId());
-		map.put("status","success");
-		return ResponseEntity.ok(map);
-	}
+	
+	
+
 	
 	@PostMapping("/client/signup")
-	public ModelAndView clientSignUp(@RequestParam(name = "name")String name,@RequestParam(name = "email")String email,@RequestParam(name = "password")String password,@RequestParam(name = "phoneNumber")String phoneNumber,@RequestParam(name = "orderId")String orderId) {
+	public ModelAndView clientSignUp(@RequestParam(name = "name")String name,@RequestParam(name = "email")String email,@RequestParam(name = "password")String password,@RequestParam(name = "phoneNumber")String phoneNumber,@RequestParam(name = "orderId")String orderId,@RequestParam(name = "membershipPlan") String planId) {
 		User user = new User();
 		user.setName(name);
 		user.setEmail(email);
 		user.setPassword(bCryptPasswordEncoder.encode(password));
 		user.setPhoneNumber(Long.parseLong(phoneNumber));
 		user.setRole("ROLE_CLIENT");
-		
+		MembershipPlan membershipPlan = membershipPlanService.getMembershipPlanById(Long.parseLong(planId));
 		Payment payment = paymentService.getPaymentByTransactionId(orderId);
 		Membership membership = new Membership();
 		membership.setPayment(payment);
 		membership.setPurchaseDate(payment.getTxTime().toLocalDate());
 		membership.setPrice(Integer.parseInt(payment.getAmount())/100);
-		membership.setExpireDate(payment.getTxTime().toLocalDate().plusMonths(1));
+		membership.setExpireDate(payment.getTxTime().toLocalDate().plusMonths(membershipPlan.getDays()/30));
 		Client client = new Client();
 		client.setUser(user);
 		client.setMembership(membership);
@@ -184,17 +177,28 @@ public class UserController {
 		return new ModelAndView("clientSignIn")  ;
 	}
 
+//	@PostMapping("/user/signup")
+//	public ModelAndView userSignUp(@RequestParam(name = "name") String name,@RequestParam(name = "email")String email,@RequestParam(name = "password")String password) {
+//		User user = new User();
+//		user.setName(name);
+//		user.setEmail(email);
+//		user.setPassword(bCryptPasswordEncoder.encode(password));
+//		user.setRole("ROLE_USER");
+//		userService.addUser(user);
+//		return new ModelAndView("clientSignIn")  ;
+//	}
+
+	
 	@PostMapping("/user/signup")
-	public ModelAndView userSignUp(@RequestParam(name = "name")String name,@RequestParam(name = "email")String email,@RequestParam(name = "password")String password) {
-		User user = new User();
-		user.setName(name);
-		user.setEmail(email);
-		user.setPassword(bCryptPasswordEncoder.encode(password));
+	public ModelAndView userSignUp( @ModelAttribute("user") @Valid User user,BindingResult bindingResult) {
+		System.out.println(bindingResult);
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		user.setRole("ROLE_USER");
 		userService.addUser(user);
 		return new ModelAndView("clientSignIn")  ;
 	}
 
+	
 
 	
 	@PostMapping("/admin/signup")

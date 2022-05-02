@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,7 @@
 				<div class="card p-3 m-3">
 <h5 class="card-title">Membership</h5>
 				<div class="card-body">
-<h6>Expire Plan Date : </h6>
+<h6>Plan Expire Date :  ${client.getMembership().getExpireDate()}</h6>
 </div>
 </div>
 

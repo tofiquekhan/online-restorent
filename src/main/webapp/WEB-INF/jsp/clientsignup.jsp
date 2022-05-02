@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +30,7 @@
 <form method="post" action="/public/client/signup" >
   <div class="form-group row">
     <label for="name" class="col-sm-12 col-form-label">Name</label>
+    <form:errors path="name" cssClass="error" />
     <div class="col">
       <input type="text" class="form-control" name="name" id="name" placeholder="Name">
     </div>
@@ -56,18 +59,18 @@
   <div class="col-sm-9">
   <select id="membership" class="custom-select form-control" name="membershipPlan">
   <option selected value="">Select Membership Plan</option>
-  <option value="plan1">One Month Membership Price 150Rs</option>
-  <option value="plan2">Two Month Membership Price 290Rs</option>
-  <option value="plan3">Two Month Membership Price 290Rs</option>
+  <c:forEach items="${membershipPlans}" var="membershipPlan">
+  <option value="<c:out value="${membershipPlan.getId()}"/>"><c:out value="${membershipPlan.getName()} for  ${membershipPlan.getDays()/30} Months  at Rs ${membershipPlan.getPrice()}"/></option>
+  </c:forEach>
 </select>
 
   </div>
   <div class="col-sm-2">
-      <button onclick="paymentStart()" type="button" class="btn btn-primary">Payment</button>
+      <button onclick="membershipPaymentStart()" type="button" class="btn btn-primary">Payment</button>
     </div>
   </div>
   <input id="orderId" type="hidden" name="orderId" value="">
-  <div id='paymentMsg' class="alert alert-success" role="alert" >
+  <div  id='paymentMsg' style="display:none" class="alert alert-success pt-2" role="alert" >
 <h6></h6>
 </div>
  <!-- <div class="form-group row">

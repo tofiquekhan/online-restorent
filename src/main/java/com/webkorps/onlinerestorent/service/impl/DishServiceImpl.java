@@ -28,4 +28,9 @@ public class DishServiceImpl implements DishService{
 		return savedDish;
 	}
 
+	@Override
+	public Dish getDishById(Long id) {
+		return dishRepository.getById(id);
+	}
+	
 }
